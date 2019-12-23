@@ -20,6 +20,8 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
+struct spinlock rec_lock;
+
 void
 pinit(void)
 {
@@ -531,4 +533,11 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+int recursive_lock_test(int inp)
+{
+	if(inp == 0)
+		return 0;
+	return recursive_lock_test(inp - 1) + inp;
 }

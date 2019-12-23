@@ -89,3 +89,20 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+// Test multiple locking of a spinlock by the same process
+// It should be successful
+int
+sys_recursive_lock_test(void)
+{
+  for(int i=0; i<10; i++)
+  {
+  	acquire(&rec_lock); 
+  }
+  // CS
+  for(int i=0; i<10; i++)
+  {
+  	release(&rec_lock); 
+  }
+  return 0;
+}
