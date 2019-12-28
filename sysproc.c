@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "spinlock.h"
 
 int
 sys_fork(void)
@@ -95,14 +96,8 @@ sys_uptime(void)
 int
 sys_recursive_lock_test(void)
 {
-  for(int i=0; i<10; i++)
-  {
-  	acquire(&rec_lock); 
-  }
-  // CS
-  for(int i=0; i<10; i++)
-  {
-  	release(&rec_lock); 
-  }
-  return 0;
+	initlock(&rec_lock, "recursive lock");
+	recursive_sum_with_lock(10);
+	release(&rec_lock);
+	return 0;
 }

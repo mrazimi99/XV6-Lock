@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-	write(1, "Testing reentrant lock!\n", 33);
-	recursive_lock_test(10);
+	write(1, "Testing reentrant lock!\n", 26);
+	recursive_lock_test();
 	exit();
 }

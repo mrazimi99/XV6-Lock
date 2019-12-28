@@ -20,6 +20,7 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
+// Definition for rec_lock which is a extern struct
 struct spinlock rec_lock;
 
 void
@@ -535,9 +536,13 @@ procdump(void)
   }
 }
 
-int recursive_lock_test(int inp)
+int recursive_sum_with_lock(int input)
 {
-	if(inp == 0)
+	acquire(&rec_lock);
+	cprintf("input = %d\n", input);
+	if (input == 0)
+	{
 		return 0;
-	return recursive_lock_test(inp - 1) + inp;
+	}
+	return input + recursive_sum_with_lock(input - 1);
 }
