@@ -24,6 +24,8 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int recursive_lock_test(void);
+int init_barrier(uint);
+int barrier(void);
 
 // ulib.c
 int stat(const char*, struct stat*);

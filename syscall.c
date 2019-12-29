@@ -104,6 +104,8 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_recursive_lock_test(void);
+extern int sys_init_barrier(void);
+extern int sys_barrier(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -128,6 +130,8 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_recursive_lock_test]   sys_recursive_lock_test,
+[SYS_init_barrier]   sys_init_barrier,
+[SYS_barrier]   sys_barrier,
 };
 
 void

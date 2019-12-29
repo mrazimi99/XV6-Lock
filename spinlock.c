@@ -9,6 +9,59 @@
 #include "proc.h"
 #include "spinlock.h"
 
+struct barrier
+{
+  struct spinlock barrier_mutex;
+  struct spinlock mutex;
+  uint nprocess;
+  uint count;
+} process_barrier;
+
+void
+init_barrier(uint number_of_processes)
+{
+	process_barrier.count = 0;
+	process_barrier.nprocess = number_of_processes;
+	initlock(&process_barrier.barrier_mutex, "process barrier");
+  initlock(&process_barrier.mutex, "mutex");
+}
+
+void
+barrier()
+{
+  acquire(&process_barrier.mutex);
+  ++process_barrier.count;
+  release(&process_barrier.mutex);
+	acquire(&process_barrier.barrier_mutex);
+
+	if (process_barrier.count != process_barrier.nprocess)
+		sleep(0, &process_barrier.barrier_mutex);
+  else
+    wakeup(0);
+
+  release(&process_barrier.barrier_mutex);
+}
+
+int
+sys_init_barrier(void)
+{
+  int n;
+
+  if(argint(0, &n) < 0 || n <= 0)
+    return -1;
+
+  init_barrier(n);
+  return 0;
+}
+
+int
+sys_barrier(void)
+{
+  barrier();
+  return 0;
+}
+
+
 void
 initlock(struct spinlock *lk, char *name)
 {

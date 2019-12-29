@@ -21,3 +21,5 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_recursive_lock_test  22
+#define SYS_init_barrier  23
+#define SYS_barrier  24
